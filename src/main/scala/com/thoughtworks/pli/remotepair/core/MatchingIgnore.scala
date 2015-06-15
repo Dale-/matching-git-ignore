@@ -20,7 +20,7 @@ class MatchingIgnore {
 
   def isIgnore(fileName: String): Boolean = {
     var isIgnore = false
-    val ignoreRule = this.generateRule("*.zip\n\nhello.scala")
+    val ignoreRule = this.generateRule("*.zip\n\n#bababa\nhello.scala")
     breakable {
       for (i <- 0 until ignoreRule.length) {
         if(fileName.contains(ignoreRule(i))) {
@@ -35,13 +35,18 @@ class MatchingIgnore {
   def diminishBlankLine(array: Array[String]): Array[String] = {
     array.filter(!_.isEmpty)
   }
+
+  def diminishAnnotation(array: Array[String]): Array[String] = {
+    array.filter(_(0) == "#")
+  }
+
 }
 
 object MatchingIgnore {
 
   def main(args: Array[String]): Unit = {
     val matchingIgnore = new MatchingIgnore()
-    val isIgnore = matchingIgnore.isIgnore("api.zip")
+    val isIgnore = matchingIgnore.isIgnore("hello.scal")
     println("isIgnore:" + isIgnore)
   }
 }
