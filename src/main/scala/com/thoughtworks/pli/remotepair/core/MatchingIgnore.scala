@@ -2,7 +2,7 @@ package com.thoughtworks.pli.remotepair.core
 
 import scala.util.control.Breaks._
 
-class matching_ignore {
+class MatchingIgnore {
 
   def generateRule(ignoreFile: String): Array[String] = {
     val ignoreArray = ignoreFile.split("\n")
@@ -35,5 +35,10 @@ class matching_ignore {
   def diminishBlankLine(array: Array[String]): Array[String] = {
     array.filter(!_.isEmpty)
   }
+}
 
+object MatchingIgnore {
+
+  def main(args: Array[String]): Unit = {
+  }
 }
