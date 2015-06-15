@@ -40,5 +40,8 @@ class MatchingIgnore {
 object MatchingIgnore {
 
   def main(args: Array[String]): Unit = {
+    val matchingIgnore = new MatchingIgnore()
+    val isIgnore = matchingIgnore.isIgnore("api.zip")
+    println("isIgnore:" + isIgnore)
   }
 }
