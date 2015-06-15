@@ -5,8 +5,9 @@ import scala.util.control.Breaks._
 class MatchingIgnore {
 
   def generateRule(ignoreFile: String): Array[String] = {
-    val ignoreArray = ignoreFile.split("\n")
-    val ignoreInfo = diminishBlankLine(ignoreArray)
+    var ignoreInfo = ignoreFile.split("\n")
+    ignoreInfo = diminishBlankLine(ignoreInfo)
+    ignoreInfo = diminishAnnotation(ignoreInfo)
     val ignoreRule = new Array[String](ignoreInfo.length)
     for (i <- 0 until ignoreInfo.length) {
       if(ignoreInfo(i).contains("*.")) {
@@ -23,6 +24,7 @@ class MatchingIgnore {
     val ignoreRule = this.generateRule("*.zip\n\n#bababa\nhello.scala")
     breakable {
       for (i <- 0 until ignoreRule.length) {
+        println(ignoreRule(i))
         if(fileName.contains(ignoreRule(i))) {
           isIgnore = true
           break
@@ -37,7 +39,7 @@ class MatchingIgnore {
   }
 
   def diminishAnnotation(array: Array[String]): Array[String] = {
-    array.filter(_(0) == "#")
+    array.filter(!_.charAt(0).equals('#'))
   }
 
 }
@@ -46,7 +48,7 @@ object MatchingIgnore {
 
   def main(args: Array[String]): Unit = {
     val matchingIgnore = new MatchingIgnore()
-    val isIgnore = matchingIgnore.isIgnore("hello.scal")
+    val isIgnore = matchingIgnore.isIgnore("hello.scala")
     println("isIgnore:" + isIgnore)
   }
 }
