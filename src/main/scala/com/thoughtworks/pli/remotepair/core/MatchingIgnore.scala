@@ -10,7 +10,7 @@ class MatchingIgnore {
     ignoreInfo = diminishAnnotation(ignoreInfo)
     val ignoreRule = new Array[String](ignoreInfo.length)
     for (i <- 0 until ignoreInfo.length) {
-      if(ignoreInfo(i).contains("/*.")) {
+      if(ignoreInfo(i).contains("*.")) {
         if(ignoreInfo(i).charAt(0).equals('/')) {
           ignoreRule(i) = '/' + ignoreInfo(i).substring(ignoreInfo(i).indexOf('*') + 1, ignoreInfo(i).length)
         } else {
@@ -25,7 +25,7 @@ class MatchingIgnore {
 
   def isIgnore(fileName: String): Boolean = {
     var isIgnore = false
-    val ignoreRule = this.generateRule("/*.java\n*.zip\n\n#bababa\nhello.scala")
+    val ignoreRule = this.generateRule("Document/*.java\n*.zip\n\n#bababa\nhello.scala")
 
     for (i <- 0 until ignoreRule.length) {
       println(ignoreRule(i))
@@ -54,14 +54,13 @@ class MatchingIgnore {
   def diminishAnnotation(array: Array[String]): Array[String] = {
     array.filter(!_.charAt(0).equals('#'))
   }
-
 }
 
 object MatchingIgnore {
 
   def main(args: Array[String]): Unit = {
     val matchingIgnore = new MatchingIgnore()
-    val isIgnore = matchingIgnore.isIgnore("hello.java")
+    val isIgnore = matchingIgnore.isIgnore("hello.zip")
     println("isIgnore:" + isIgnore)
   }
 }
