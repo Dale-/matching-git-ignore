@@ -10,9 +10,9 @@ class MatchingIgnore {
     ignoreInfo = diminishAnnotation(ignoreInfo)
     val ignoreRule = new Array[String](ignoreInfo.length)
     for (i <- 0 until ignoreInfo.length) {
-      if(ignoreInfo(i).contains("\\*.")) {
-        if(ignoreInfo(i).charAt(0).equals('\\')) {
-          ignoreRule(i) = '\\' + ignoreInfo(i).substring(ignoreInfo(i).indexOf('*') + 1, ignoreInfo(i).length)
+      if(ignoreInfo(i).contains("/*.")) {
+        if(ignoreInfo(i).charAt(0).equals('/')) {
+          ignoreRule(i) = '/' + ignoreInfo(i).substring(ignoreInfo(i).indexOf('*') + 1, ignoreInfo(i).length)
         } else {
           ignoreRule(i) = ignoreInfo(i).substring(1, ignoreInfo(i).length)
         }
@@ -25,12 +25,16 @@ class MatchingIgnore {
 
   def isIgnore(fileName: String): Boolean = {
     var isIgnore = false
-    val ignoreRule = this.generateRule("\\*.java\n*.zip\n\n#bababa\nhello.scala")
+    val ignoreRule = this.generateRule("/*.java\n*.zip\n\n#bababa\nhello.scala")
+
+    for (i <- 0 until ignoreRule.length) {
+      println(ignoreRule(i))
+    }
 
     breakable {
       for (i <- 0 until ignoreRule.length) {
-        if(ignoreRule(i).charAt(0).equals('\\')) {
-          if(fileName.contains(ignoreRule(i).substring(1, ignoreRule(i).length)) && !fileName.contains('\\')) {
+        if(ignoreRule(i).charAt(0).equals('/')) {
+          if(fileName.contains(ignoreRule(i).substring(1, ignoreRule(i).length)) && !fileName.contains('/')) {
             isIgnore = true
             break
           }
