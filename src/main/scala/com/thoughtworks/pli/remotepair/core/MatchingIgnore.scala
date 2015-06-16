@@ -11,11 +11,17 @@ class MatchingIgnore {
     val ignoreRule = new Array[String](ignoreInfo.length)
     for (i <- 0 until ignoreInfo.length) {
       if(ignoreInfo(i).contains("*.")) {
-        if(ignoreInfo(i).charAt(0).equals('/')) {
-          ignoreRule(i) = '/' + ignoreInfo(i).substring(ignoreInfo(i).indexOf('*') + 1, ignoreInfo(i).length)
+        if(ignoreInfo(i).contains('/')) {
+          if(ignoreInfo(i).charAt(0).equals('/')) {
+            ignoreRule(i) = '/' + ignoreInfo(i).substring(ignoreInfo(i).indexOf('*') + 1, ignoreInfo(i).length)
+          } else {
+            ignoreRule(i) = ignoreInfo(i).substring(0, ignoreInfo(i).indexOf('/')) + " " +
+                            ignoreInfo(i).substring(ignoreInfo(i).indexOf('*') + 1, ignoreInfo(i).length);
+          }
         } else {
           ignoreRule(i) = ignoreInfo(i).substring(1, ignoreInfo(i).length)
         }
+
       } else {
         ignoreRule(i) = ignoreInfo(i)
       }
@@ -35,6 +41,12 @@ class MatchingIgnore {
       for (i <- 0 until ignoreRule.length) {
         if(ignoreRule(i).charAt(0).equals('/')) {
           if(fileName.contains(ignoreRule(i).substring(1, ignoreRule(i).length)) && !fileName.contains('/')) {
+            isIgnore = true
+            break
+          }
+        } else if (ignoreRule(i).contains(" ")) {
+          val rule = ignoreRule(i).split(" ")
+          if(fileName.contains(rule(0)) && fileName.contains(rule(1))) {
             isIgnore = true
             break
           }
@@ -60,7 +72,7 @@ object MatchingIgnore {
 
   def main(args: Array[String]): Unit = {
     val matchingIgnore = new MatchingIgnore()
-    val isIgnore = matchingIgnore.isIgnore("hello.zip")
+    val isIgnore = matchingIgnore.isIgnore("Document/project/p.java")
     println("isIgnore:" + isIgnore)
   }
 }
