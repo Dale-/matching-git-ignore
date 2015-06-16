@@ -27,14 +27,9 @@ class MatchingIgnore {
     var isIgnore = false
     val ignoreRule = this.generateRule("\\*.java\n*.zip\n\n#bababa\nhello.scala")
 
-//    for (i <- 0 until ignoreRule.length) {
-//      println(ignoreRule(i))
-//    }
-
     breakable {
       for (i <- 0 until ignoreRule.length) {
         if(ignoreRule(i).charAt(0).equals('\\')) {
-          println(ignoreRule(i))
           if(fileName.contains(ignoreRule(i).substring(1, ignoreRule(i).length)) && !fileName.contains('\\')) {
             isIgnore = true
             break
