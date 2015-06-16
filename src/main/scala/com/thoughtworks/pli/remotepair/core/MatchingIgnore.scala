@@ -21,7 +21,6 @@ class MatchingIgnore {
         } else {
           ignoreRule(i) = ignoreInfo(i).substring(1, ignoreInfo(i).length)
         }
-
       } else {
         ignoreRule(i) = ignoreInfo(i)
       }
@@ -33,9 +32,9 @@ class MatchingIgnore {
     var isIgnore = false
     val ignoreRule = this.generateRule("Document/*.java\n*.zip\n\n#bababa\nhello.scala")
 
-    for (i <- 0 until ignoreRule.length) {
-      println(ignoreRule(i))
-    }
+//    for (i <- 0 until ignoreRule.length) {
+//      println(ignoreRule(i))
+//    }
 
     breakable {
       for (i <- 0 until ignoreRule.length) {
@@ -47,8 +46,11 @@ class MatchingIgnore {
         } else if (ignoreRule(i).contains(" ")) {
           val rule = ignoreRule(i).split(" ")
           if(fileName.contains(rule(0)) && fileName.contains(rule(1))) {
-            isIgnore = true
-            break
+            val matchingRule = fileName.replace(rule(0), "")
+            if(!matchingRule.replace(rule(1), "").contains('/')) {
+              isIgnore = true
+              break
+            }
           }
         } else if (fileName.contains(ignoreRule(i))) {
           isIgnore = true
