@@ -28,9 +28,9 @@ class MatchingIgnore {
     return ignoreRule
   }
 
-  def isIgnore(fileName: String): Boolean = {
+  def isIgnore(fileName: String, ignoreFile: String): Boolean = {
     var isIgnore = false
-    val ignoreRule = this.generateRule("/*.c\nDocument/*.java\n*.zip\n\n#bababa\nhello.scala")
+    val ignoreRule = this.generateRule(ignoreFile)
     breakable {
       for (i <- 0 until ignoreRule.length) {
         if(ignoreRule(i).charAt(0).equals('/')) {
@@ -70,7 +70,7 @@ object MatchingIgnore {
 
   def main(args: Array[String]): Unit = {
     val matchingIgnore = new MatchingIgnore()
-    val isIgnore = matchingIgnore.isIgnore("Document/p.java")
+    val isIgnore = matchingIgnore.isIgnore("Document/p.java", "/*.c\nDocument/*.java\n*.zip\n\n#bababa\nhello.scala")
     println("isIgnore:" + isIgnore)
   }
 }
